@@ -40,16 +40,9 @@ jobs:
         if: steps.compare.outputs.changed == 'false'
         run: echo "List is up to date. No PR needed."
 
-      - name: Create source-update branch and push changes
+      - name: Copy updated file
         if: steps.compare.outputs.changed == 'true'
-        run: |
-          cp /tmp/public-email-provider-list.json public-email-provider-list.json
-          git config user.name "VH-Devops GitHub Actions[bot]"
-          git config user.email "devops@ventrichealth.com"
-          git checkout -b source-update
-          git add public-email-provider-list.json
-          git commit -m "(chore): sync public email provider list from upstream gist"
-          git push --force origin source-update
+        run: cp /tmp/public-email-provider-list.json public-email-provider-list.json
 
       - name: Create pull request into dev
         if: steps.compare.outputs.changed == 'true'
